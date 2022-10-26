@@ -11,19 +11,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gndx/js-portfolio.git"
+    "url": "git+https://github.com/juancodev/js-portfolio.git"
   },
   "keywords": [
     "javascript",
     "html",
     "css"
   ],
-  "author": "oscar barajas <oscar@gndx.dev>",
+  "author": "Juan Montilla <montillasanchezjuancarlos@gmail.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gndx/js-portfolio/issues"
+    "url": "https://github.com/juancodev/js-portfolio/issues"
   },
-  "homepage": "https://github.com/gndx/js-portfolio#readme",
+  "homepage": "https://github.com/juancodev/js-portfolio#readme",
   "devDependencies": {
     "@babel/core": "^7.19.6",
     "@babel/plugin-transform-runtime": "^7.19.6",
