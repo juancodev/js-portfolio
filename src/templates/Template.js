@@ -15,13 +15,13 @@ const Template = async () => {
         <div class="navbar-list">
           <ul>
             <li>
-              <a href="https://juancodev.github.io/Portfolio/">About</a>
+              <a href="https://juancodev.github.io/Portfolio/" target="_blank">About</a>
             </li>
             <li>
-              <a href="https://juancodev.github.io/Portfolio/#project">Project</a>
+              <a href="https://juancodev.github.io/Portfolio/#project" target="_blank">Project</a>
             </li>
             <li>
-              <a href="https://juancodev.github.io/Portfolio/#contact">Contact</a>
+              <a href="https://juancodev.github.io/Portfolio/#contact" target="_blank">Contact</a>
             </li>
           </ul>
         </div>
