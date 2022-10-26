@@ -5,14 +5,17 @@ const CopyPlugin = require('copy-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
+/*const {CleanWebpackPlugin} = require('clean-webpack-plugin');*/
 
 module.exports = {
   entry: './src/index.js', //indicar el elemento de entrada.
   output: {
     path: path.resolve(__dirname, 'dist'), // __dirname me indica donde está posicionado mis archivos
     filename: '[name].[contenthash].js', // Este es el nombre del archivo que se va a crear en la carpeta dist.
-    assetModuleFilename: 'assets/images/[hash][ext][query]'
+    assetModuleFilename: 'assets/images/[hash][ext][query]',
+    clean: true
   },
+  mode: 'production',
   resolve: {
     extensions: ['.js'], // En este array le vamos a indicar las extensiones que vamos a utilizar.
     alias: { //Los alias nos ayudan a simplificar las rutas con mucha búsqueda
@@ -72,7 +75,8 @@ module.exports = {
         to: "assets/images"
       }]
     }),
-    new Dotenv()
+    new Dotenv(),
+    //new CleanWebpackPlugin()
   ],
   optimization: {
     minimize: true,
