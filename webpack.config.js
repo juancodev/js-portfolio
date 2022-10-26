@@ -2,15 +2,25 @@ const path = require('path'); //path ya está disponible en node por eso no hay 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: './src/index.js', //indicar el elemento de entrada.
   output: {
     path: path.resolve(__dirname, 'dist'), // __dirname me indica donde está posicionado mis archivos
-    filename: 'main.js', // Este es el nombre del archivo que se va a crear en la carpeta dist.
+    filename: '[name].[contenthash].js', // Este es el nombre del archivo que se va a crear en la carpeta dist.
+    assetModuleFilename: 'assets/images/[hash][ext][query]'
   },
   resolve: {
-    extensions: ['.js'] // En este array le vamos a indicar las extensiones que vamos a utilizar.
+    extensions: ['.js'], // En este array le vamos a indicar las extensiones que vamos a utilizar.
+    alias: { //Los alias nos ayudan a simplificar las rutas con mucha búsqueda
+      '@utils': path.resolve(__dirname, 'src/utils/'),
+      '@templates': path.resolve(__dirname, 'src/templates/'),
+      '@styles': path.resolve(__dirname, 'src/styles/'),
+      '@images': path.resolve(__dirname, 'src/assets/images/'),
+    }
   },
   module: { // Este es un objeto que se encuentran dentro de unas reglas
     rules: [{
@@ -26,6 +36,24 @@ module.exports = {
           MiniCssExtractPlugin.loader,
           'css-loader'
         ],
+      },
+      { // Mediante esta regla podemos importar las imágenes como variables
+        test: /\.png$/, //solamente trabajamos con ellos en la enfoque del proyecto
+        type: 'asset/resource'
+      },
+      {
+        test: /\.(woff|woff2)$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 10000,
+            mimetype: "application/font-woff",
+            name: "[name][contenthash].[ext]",
+            outputPath: "./assets/fonts/",
+            publicPath: "../assets/fonts/",
+            esModule: false
+          }
+        }
       }
     ]
   },
@@ -35,12 +63,22 @@ module.exports = {
       template: './public/index.html', // Donde se encuentra el template
       filename: './index.html' // Y con esto indicamos cuál va a ser el resultado en html
     }),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'assets/[name].[contenthash].css'
+    }),
     new CopyPlugin({
-      patterns: [{
+      patterns: [{ //necesitamos indicarle desde donde lo vamos a copiar hasta donde
         from: path.resolve(__dirname, "src", "assets/images"),
         to: "assets/images"
       }]
-    })
-  ]
+    }),
+    new Dotenv()
+  ],
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new CssMinimizerPlugin(),
+      new TerserPlugin(),
+    ]
+  }
 }
